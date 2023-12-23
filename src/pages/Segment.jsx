@@ -1,6 +1,7 @@
-import { useCallback, useState } from "react";
+import { Suspense, lazy, useCallback, useState } from "react";
 import styled from "styled-components";
-import Sidebar from "../components/Sidebar";
+
+const LazySidebar = lazy(() => import("../components/Sidebar"));
 
 const Segment = () => {
   const [sidebarVisible, setSidebarVisible] = useState(false);
@@ -16,7 +17,11 @@ const Segment = () => {
       </SegmentContainer>
 
       {/* Toggle sidebar & Open sidebar component */}
-      {sidebarVisible && <Sidebar toggleSidebar={toggleSidebar} />}
+      {sidebarVisible && (
+        <Suspense>
+          <LazySidebar toggleSidebar={toggleSidebar} />
+        </Suspense>
+      )}
     </div>
   );
 };
